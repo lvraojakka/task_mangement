@@ -2,7 +2,7 @@ import { verifyToken } from '../utils/token.js';
 import { User } from '../models/index.js';
 
 export const auth = async (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
+  const token = req.header("Authorization")
   if (!token) return res.status(401).json({ message: 'Missing token' });
 
   try {
