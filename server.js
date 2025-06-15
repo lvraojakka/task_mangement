@@ -1,23 +1,16 @@
-import db from './models/index.js';
+import express from 'express';
+import dotenv from 'dotenv';
+import { sequelize } from './models/index.js';
+import routes from './routes/index.js';
 
+dotenv.config();
 
+const app = express();
+app.use(express.json());
+app.use('/api', routes);
 
-
-
-
-
-
-
-
-
-
-try {
-  // Just testing the connection
-  await db.sequelize.authenticate();
-  console.log('Connected to PostgreSQL successfully.');
-
-  // Optionally sync here instead
-  // await db.sequelize.sync();
-} catch (err) {
-  console.error('Unable to connect to the database:', err);
-}
+const port = process.env.PORT || 3000;
+sequelize.authenticate().then(() => {
+  console.log('DB connected');
+  app.listen(port, () => console.log(`Server running on port ${port}`));
+});
